@@ -18,12 +18,51 @@ const setupRoutes = (server: Express) => {
   server.get('/api/users', usersController.getAllUsers);
   // get user by id
   server.get('/api/users/:idUser', usersController.getOneUser);
+  // post user pour ajouter un nouvel utilisateur
+  server.post(
+    '/api/users',
+    usersController.validateUser,
+    usersController.emailIsFree,
+    usersController.addUser,
+    usersController.updateUser
+  );
+  server.put(
+    '/api/users/:idUser',
+    usersController.validateUser,
+    usersController.userExists,
+    usersController.updateUser
+  );
+
+  server.delete(
+    '/api/users/:idUser',
+    usersController.userExists,
+    usersController.deleteUser
+  );
 
   // MOVIES
   // get movies
   server.get('/api/movies', moviesController.getAllMovies);
   // get movie by id
   server.get('/api/movies/:idMovie', moviesController.getOneMovie);
+  // post movie pour ajouter un nouveau film
+  server.post(
+    '/api/movies',
+    moviesController.validateMovie,
+    moviesController.addMovie,
+    moviesController.updateMovie
+  );
+  server.put(
+    '/api/movies/:idMovie',
+    moviesController.validateMovie,
+    moviesController.addMovie,
+    moviesController.updateMovie
+  );
+
+  server.delete(
+    '/api/movies/:idMovie',
+    moviesController.movieExists,
+    moviesController.deleteMovie
+  );
 };
 
 export default setupRoutes;
